@@ -58,7 +58,7 @@ object TableImageService {
       table: List[List[String]],
       columnWidths: List[Int],
       cellHeight: Int
-  ) = {
+  ): List[Graphics2D => Unit] = {
     table.zipWithIndex.flatMap { case (row, i) =>
       row.zipWithIndex.map { case (cell, j) =>
         val x = columnWidths.slice(0, j).sum
@@ -97,6 +97,26 @@ object TableImageService {
       case Success(_) => println("Image successfully written.")
       case Failure(exception) =>
         println(s"Failed to write image: $exception")
+    }
+  }
+
+  def validateStrings(
+      table: List[List[String]]
+  ): Either[String, List[List[String]]] = {
+    val tableEithers = table.map(_.map(AdaptiveString.apply))
+    val errors = tableEithers.flatten.collect { case Left(error) => error }
+    if (errors.isEmpty)
+      Right(tableEithers.map(_.collect { case Right(value) => value.value }))
+    else
+      Left(errors.mkString("\n"))
+  }
+
+  def runApplication(table: List[List[String]], outputPath: String): Unit = {
+    TableImageService.validateStrings(table) match {
+      case Left(error) =>
+        println(s"Failed to validate table: $error")
+      case Right(validTable) =>
+        TableImageService.createTableImage(validTable, outputPath)
     }
   }
 }
