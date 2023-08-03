@@ -1,6 +1,6 @@
 package com.traveltime.tablePngConverter
 
-import java.awt.{Color, Font, FontMetrics, Graphics2D, RenderingHints}
+import java.awt.{Color, Font}
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 import java.io.File
