@@ -10,7 +10,7 @@ object TableImageService {
   private val font = new Font("Courier", Font.PLAIN, 32)
   private val headerFont = font.deriveFont(Font.BOLD)
 
-  def createTableImage(
+  private def createTableImage(
       table: List[List[String]],
       outputPath: String
   ): Unit = {
@@ -100,7 +100,7 @@ object TableImageService {
     }
   }
 
-  def validateStrings(
+  private def validateStrings(
       table: List[List[String]]
   ): Either[String, List[List[String]]] = {
     val tableEithers = table.map(_.map(AdaptiveString.apply))
