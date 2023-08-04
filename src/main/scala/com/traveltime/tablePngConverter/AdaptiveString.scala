@@ -7,5 +7,5 @@ object AdaptiveString {
 
   def apply(input: String): Either[String, AdaptiveString] =
     if (input.length <= MaxLength) Right(new AdaptiveString(input) {})
-    else Left(s"Input is too long, maximum length is $MaxLength characters")
+    else Left(s"Input \"$input\" is too long, maximum length is $MaxLength characters")
 }
